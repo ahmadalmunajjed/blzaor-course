@@ -1,0 +1,56 @@
+{
+  "template": "app-nolayers",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "5.2.0",
+      "isInstalled": true,
+      "creationTime": "04/21/2026 15:56:33 +00:00"
+    },
+    "Volo.Abp.Account": {
+      "version": "10.2.0",
+      "isInstalled": true,
+      "creationTime": "04/21/2026 15:56:33 +00:00"
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "10.2.0",
+      "isInstalled": true,
+      "creationTime": "04/21/2026 15:56:33 +00:00"
+    },
+    "Volo.Abp.Identity": {
+      "version": "10.2.0",
+      "isInstalled": true,
+      "creationTime": "04/21/2026 15:56:33 +00:00"
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "10.2.0",
+      "isInstalled": true,
+      "creationTime": "04/21/2026 15:56:33 +00:00"
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "10.2.0",
+      "isInstalled": true,
+      "creationTime": "04/21/2026 15:56:33 +00:00"
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "10.2.0",
+      "isInstalled": true,
+      "creationTime": "04/21/2026 15:56:33 +00:00"
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "10.2.0",
+      "isInstalled": true,
+      "creationTime": "04/21/2026 15:56:33 +00:00"
+    }
+  },
+  "packages": {
+    "BlzaorBookStore.Blazor": {
+      "path": "BlzaorBookStore.Blazor/BlzaorBookStore.Blazor.abppkg"
+    },
+    "BlzaorBookStore.Host": {
+      "path": "BlzaorBookStore.Host/BlzaorBookStore.Host.abppkg"
+    },
+    "BlzaorBookStore.Contracts": {
+      "path": "BlzaorBookStore.Contracts/BlzaorBookStore.Contracts.abppkg"
+    }
+  }
+}

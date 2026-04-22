@@ -1,0 +1,9 @@
+<Solution>
+    <Configurations>
+        <Platform Name="Any CPU" />
+    </Configurations>
+
+    <Project Path="BlzaorBookStore.Contracts/BlzaorBookStore.Contracts.csproj" />
+    <Project Path="BlzaorBookStore.Blazor/BlzaorBookStore.Blazor.csproj" />
+    <Project Path="BlzaorBookStore.Host/BlzaorBookStore.Host.csproj" />
+</Solution>

@@ -1,0 +1,52 @@
+{
+  "id": "0175ed36-7a48-4ad0-89c2-dcc04099cdf2",
+  "template": "app-nolayers",
+  "versions": {
+    "AbpFramework": "10.2.0",
+    "AbpStudio": "2.2.6",
+    "TargetDotnetFramework": "net10.0"
+  },
+  "modules": {
+    "BlzaorBookStore": {
+      "path": "BlzaorBookStore.abpmdl"
+    }
+  },
+  "runProfiles": {
+    "Default": {
+      "path": "etc/run-profiles/Default.abprun.json"
+    }
+  },
+  "options": {
+    "httpRequests": {
+      "ignoredUrls": [
+      
+      ]
+    }
+  },
+  "creatingStudioConfiguration": {
+    "template": "app-nolayers",
+    "createdAbpStudioVersion": "2.2.6",
+    "creationTool": "ABP Studio CLI",
+    "multiTenancy": "true",
+    "runInstallLibs": "",
+    "runBundling": "true",
+    "useLocalReferences": "false",
+    "uiFramework": "blazor",
+    "databaseProvider": "ef",
+    "runDbMigrator": "",
+    "includeTests": "false",
+    "databaseManagementSystem": "sqlserver",
+    "createInitialMigration": "",
+    "theme": "leptonx-lite",
+    "themeStyle": "",
+    "themeMenuPlacement": "",
+    "progressiveWebApp": "",
+    "runProgressiveWebAppSupport": "",
+    "publicWebsite": "",
+    "socialLogin": "true",
+    "sampleCrudPage": "true",
+    "selectedLanguages": ["English", "Arabic", "Chinese (Simplified)", "Chinese (Traditional)", "Czech", "English (United Kingdom)", "Finnish", "French", "German (Germany)", "Hindi ", "Hungarian", "Icelandic", "Italian", "Portuguese (Brazil)", "Romanian (Romania)", "Russian", "Slovak", "Spanish", "Swedish", "Turkish", ],
+    "defaultLanguage": "English",
+    "createCommand": "abp new BlzaorBookStore -t app-nolayers --ui-framework blazor --mobile  --database-provider ef --database-management-system sqlserver --theme leptonx-lite --skip-migration  --skip-migrator  --no-tests --without-cms-kit --sample-crud-page --dont-run-install-libs -no-file-management"
+  }
+}
