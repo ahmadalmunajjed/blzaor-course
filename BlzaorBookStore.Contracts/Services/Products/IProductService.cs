@@ -1,8 +1,9 @@
 ﻿using BlzaorBookStore.Services.Dtos.Products;
+using Volo.Abp.Application.Services;
 
-namespace BlzaorProductStore.Services.Products;
+namespace BlzaorBookStore.Services.Products;
 
-public interface IProductService
+public interface IProductService : IApplicationService
 {
     Task<ProductDto> CreateAsync(CreateUpdateProductDto input);
     Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input);

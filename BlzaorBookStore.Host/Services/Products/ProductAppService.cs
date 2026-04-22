@@ -1,6 +1,5 @@
 ﻿using BlzaorBookStore.Entities.Products;
 using BlzaorBookStore.Services.Dtos.Products;
-using BlzaorProductStore.Services.Products;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
