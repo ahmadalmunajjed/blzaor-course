@@ -11,13 +11,15 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using BlzaorBookStore.Entities.Books;
+using BlzaorBookStore.Entities.Products;
 
 namespace BlzaorBookStore.Data;
 
 public class BlzaorBookStoreDbContext : AbpDbContext<BlzaorBookStoreDbContext>
 {
     public DbSet<Book> Books { get; set; }
-    
+    public DbSet<Product> Products { get; set; }
+
     public const string DbTablePrefix = "App";
     public const string DbSchema = null;
 
@@ -49,7 +51,15 @@ public class BlzaorBookStoreDbContext : AbpDbContext<BlzaorBookStoreDbContext>
             b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(x => x.Name).IsRequired().HasMaxLength(128);
         });
-        
+
+        builder.Entity<Product>(b =>
+        {
+            b.ToTable(DbTablePrefix + "Products",
+                DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property(x => x.Name).IsRequired().HasMaxLength(128);
+        });
+
         /* Configure your own entities here */
     }
 }
