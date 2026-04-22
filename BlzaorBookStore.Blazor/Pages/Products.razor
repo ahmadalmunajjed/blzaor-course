@@ -1,0 +1,106 @@
+@page "/products"
+@using BlzaorBookStore.Services.Products
+@using BlzaorBookStore.Services.Dtos.Products
+@using BlzaorBookStore.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@inject IProductService ProductService
+@inject NavigationManager Navigation
+@inject IStringLocalizer<BlzaorBookStoreResource> L
+@inherits BlzaorBookStoreComponentBase
+
+<Card>
+    <CardHeader>
+        <Row Class="justify-content-between">
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <CardTitle>@L["Products"]</CardTitle>
+            </Column>
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <Button Color="Color.Primary" Clicked="GoToCreate">
+                    <Icon Name="IconName.Add" />
+                    @L["NewProduct"]
+                </Button>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <DataGrid TItem="ProductDto"
+                  Data="Items"
+                  ReadData="OnReadDataAsync"
+                  ShowPager="false">
+            <DataGridColumns>
+                <DataGridEntityActionsColumn TItem="ProductDto" @ref="EntityActionsColumn">
+                    <DisplayTemplate>
+                        <EntityActions TItem="ProductDto" EntityActionsColumn="EntityActionsColumn">
+                            <EntityAction TItem="ProductDto"
+                                          Text="@L["Edit"]"
+                                          Clicked="() => GoToEdit(context.Item)" />
+                            <EntityAction TItem="ProductDto"
+                                          Text="@L["Delete"]"
+                                          Clicked="() => DeleteAsync(context.Item)"
+                                          ConfirmationMessage="() => GetDeleteConfirmationMessage(context.Item)" />
+                        </EntityActions>
+                    </DisplayTemplate>
+                </DataGridEntityActionsColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Name)"
+                                Caption="@L["Name"]" />
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Price)"
+                                Caption="@L["Price"]" />
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+
+@code {
+    private IReadOnlyList<ProductDto> Items { get; set; } = new List<ProductDto>();
+    private DataGridEntityActionsColumn<ProductDto>? EntityActionsColumn { get; set; }
+    private string? Filter { get; set; }
+    private string? Sorting { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task OnReadDataAsync(DataGridReadDataEventArgs<ProductDto> e)
+    {
+        Sorting = e.Columns
+            .Where(c => c.SortDirection != SortDirection.Default)
+            .Select(c => c.Field + (c.SortDirection == SortDirection.Descending ? "_desc" : ""))
+            .FirstOrDefault();
+
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        Items = await ProductService.GetListAsync(new GetProductsInput
+        {
+            Filter = Filter,
+            Sorting = Sorting
+        });
+    }
+
+    private void GoToCreate()
+    {
+        Navigation.NavigateTo("/product-form");
+    }
+
+    private void GoToEdit(ProductDto product)
+    {
+        Navigation.NavigateTo($"/product-form/{product.Id}");
+    }
+
+    private async Task DeleteAsync(ProductDto product)
+    {
+        await ProductService.DeleteAsync(product.Id);
+        await LoadAsync();
+    }
+
+    private string GetDeleteConfirmationMessage(ProductDto product)
+    {
+        return string.Format(L["ItemWillBeDeletedMessage"], product.Name);
+    }
+}

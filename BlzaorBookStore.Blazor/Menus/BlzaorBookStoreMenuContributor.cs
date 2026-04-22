@@ -97,6 +97,12 @@ public class BlzaorBookStoreMenuContributor : IMenuContributor
                 url: "/books"
             ));
         }
+
+        bookStoreMenu.AddItem(new ApplicationMenuItem(
+            "BooksStore.Products",
+            l["Menu:Products"],
+            url: "/products"
+        ));
     }
 
     private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)

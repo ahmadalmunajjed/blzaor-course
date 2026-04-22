@@ -1,9 +1,84 @@
-﻿@page "/product-form"
-@* @using BlzaorProductStore.Services.Products *@
-@* @inject IProductService ProductService *@
+@page "/product-form"
+@page "/product-form/{Id:guid}"
+@using BlzaorBookStore.Services.Products
+@using BlzaorBookStore.Services.Dtos.Products
+@using Microsoft.AspNetCore.Components.Forms
+@inject IProductService ProductService
+@inject NavigationManager Navigation
 
-<h3>ProductForm</h3>
+<h3>@(Id is null ? "New Product" : "Edit Product")</h3>
+
+<EditForm Model="Model" OnValidSubmit="HandleValidSubmitAsync">
+    <DataAnnotationsValidator />
+    <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
+
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <InputText id="name" class="form-control" @bind-Value="Model.Name" />
+        <ValidationMessage For="() => Model.Name" />
+    </div>
+
+    <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <InputNumber id="price" class="form-control" @bind-Value="PriceValue" />
+        <ValidationMessage For="() => Model.Price" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" disabled="@IsSaving">
+        @(IsSaving ? "Saving..." : "Save")
+    </button>
+    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+</EditForm>
 
 @code {
+    [Parameter]
+    public Guid? Id { get; set; }
 
+    private CreateUpdateProductDto Model { get; set; } = new();
+    private bool IsSaving { get; set; }
+
+    private float PriceValue
+    {
+        get => Model.Price ?? 0f;
+        set => Model.Price = value;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id is { } id)
+        {
+            var existing = await ProductService.GetAsync(id);
+            Model = new CreateUpdateProductDto
+            {
+                Name = existing.Name,
+                Price = existing.Price
+            };
+        }
+    }
+
+    private async Task HandleValidSubmitAsync()
+    {
+        IsSaving = true;
+        try
+        {
+            if (Id is { } id)
+            {
+                await ProductService.UpdateAsync(id, Model);
+            }
+            else
+            {
+                await ProductService.CreateAsync(Model);
+            }
+            Navigation.NavigateTo("/products");
+        }
+        finally
+        {
+            IsSaving = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/products");
+    }
 }
