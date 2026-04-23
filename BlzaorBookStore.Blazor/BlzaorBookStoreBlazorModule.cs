@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Components.WebAssembly.Theming.Bundling;
 using BlzaorBookStore.Menus;
+using BlzaorBookStore.Services;
 using OpenIddict.Abstractions;
 using Volo.Abp.Account;
 using Microsoft.Extensions.DependencyInjection;
@@ -89,6 +90,8 @@ public class BlzaorBookStoreBlazorModule : AbpModule
         ConfigureBlazorise(context);
         ConfigureRouter(context);
         ConfigureMenu(context);
+
+        context.Services.AddScoped<CartService>();
     }
 
 

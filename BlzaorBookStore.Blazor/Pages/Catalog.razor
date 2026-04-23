@@ -1,0 +1,105 @@
+@page "/catalog"
+@attribute [AllowAnonymous]
+@namespace BlzaorBookStore.Pages
+@inherits CatalogBase
+@using BlzaorBookStore.Services.Dtos.Products
+
+<Card Margin="Margin.Is4.FromBottom">
+    <CardBody>
+        <Row Class="align-items-center">
+            <Column ColumnSize="ColumnSize.Is8">
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">
+                    <i class="fas fa-store me-2"></i>
+                    @L["Catalog"]
+                </Heading>
+                <Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Muted">
+                    @L["CatalogSubtitle"]
+                </Paragraph>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is4" Class="text-end">
+                <Button Color="Color.Primary" Outline Clicked="GoToCart">
+                    <Icon Name="IconName.Cart" Margin="Margin.Is2.FromEnd" />
+                    @L["Cart"] (@Cart.TotalQuantity)
+                </Button>
+            </Column>
+        </Row>
+    </CardBody>
+</Card>
+
+@if (ShowAddedAlert && !string.IsNullOrEmpty(LastAddedName))
+{
+    <Alert Color="Color.Success" Visible Dismisable Margin="Margin.Is3.FromBottom">
+        <AlertMessage>
+            <Icon Name="IconName.Check" Margin="Margin.Is2.FromEnd" />
+            @string.Format(L["AddedToCart"], LastAddedName)
+        </AlertMessage>
+        <CloseButton Clicked="DismissAlert" />
+    </Alert>
+}
+
+@if (Items.Count == 0)
+{
+    <Card>
+        <CardBody TextAlignment="TextAlignment.Center" Padding="Padding.Is5">
+            <div style="font-size:3rem;color:#adb5bd;">
+                <i class="fas fa-box"></i>
+            </div>
+            <Paragraph Margin="Margin.Is3.FromTop" TextColor="TextColor.Muted">
+                @L["NoProductsAvailable"]
+            </Paragraph>
+        </CardBody>
+    </Card>
+}
+else
+{
+    <Row>
+        @foreach (var product in Items)
+        {
+            <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile"
+                    Margin="Margin.Is4.FromBottom">
+                <Card Shadow="Shadow.Small" Class="h-100">
+                    <CardBody TextAlignment="TextAlignment.Center" Padding="Padding.Is4">
+                        <div style="font-size:4rem;color:#6c757d;">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <CardTitle Size="HeadingSize.Is5" Margin="Margin.Is3.FromTop">
+                            @product.Name
+                        </CardTitle>
+                        <Badge Color="Color.Success" Pill Padding="Padding.Is3.OnX.Is2.OnY">
+                            <span style="font-size:1rem;">@FormatPrice(product.Price)</span>
+                        </Badge>
+                    </CardBody>
+                    <CardFooter Background="Background.Light">
+                        <Row Class="align-items-center g-2">
+                            <Column ColumnSize="ColumnSize.Is5">
+                                <Field Margin="Margin.Is0">
+                                    <FieldLabel Class="small mb-1">@L["Quantity"]</FieldLabel>
+                                    <NumericInput TValue="int"
+                                                  Value="@GetQuantity(product.Id)"
+                                                  ValueChanged="@((int v) => SetQuantity(product.Id, v))"
+                                                  Min="1"
+                                                  Size="Size.Small" />
+                                </Field>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is7">
+                                <Button Color="Color.Primary"
+                                        Block
+                                        Clicked="() => AddToCartAsync(product)">
+                                    <Icon Name="IconName.Cart" Margin="Margin.Is2.FromEnd" />
+                                    @L["AddToCart"]
+                                </Button>
+                            </Column>
+                        </Row>
+                    </CardFooter>
+                </Card>
+            </Column>
+        }
+    </Row>
+}
+
+@code {
+    private static string FormatPrice(float? price)
+    {
+        return "$" + price.GetValueOrDefault().ToString("0.00");
+    }
+}

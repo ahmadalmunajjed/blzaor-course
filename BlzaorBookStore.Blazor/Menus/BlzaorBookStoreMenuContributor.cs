@@ -43,6 +43,22 @@ public class BlzaorBookStoreMenuContributor : IMenuContributor
             order: 1
         ));
 
+        context.Menu.AddItem(new ApplicationMenuItem(
+            "Catalog",
+            l["Menu:Catalog"],
+            "/catalog",
+            icon: "fa fa-store",
+            order: 2
+        ));
+
+        context.Menu.AddItem(new ApplicationMenuItem(
+            "Cart",
+            l["Menu:Cart"],
+            "/cart",
+            icon: "fa fa-shopping-cart",
+            order: 3
+        ));
+
         /* Example nested menu definition:
 
         context.Menu.AddItem(

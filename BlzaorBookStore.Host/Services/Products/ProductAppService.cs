@@ -1,5 +1,6 @@
 ﻿using BlzaorBookStore.Entities.Products;
 using BlzaorBookStore.Services.Dtos.Products;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
@@ -54,6 +55,7 @@ public class ProductAppService : ApplicationService, IProductService
         return dto;
     }
 
+    [AllowAnonymous]
     public async Task<List<ProductDto>> GetListAsync(GetProductsInput input)
     {
         var queryable = await _repository.GetQueryableAsync();

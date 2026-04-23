@@ -1,0 +1,151 @@
+@page "/cart"
+@attribute [AllowAnonymous]
+@namespace BlzaorBookStore.Pages
+@inherits CartBase
+
+<Card>
+    <CardHeader>
+        <Row Class="justify-content-between align-items-center">
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <CardTitle Margin="Margin.Is0">
+                    <Icon Name="IconName.Cart" Margin="Margin.Is2.FromEnd" />
+                    @L["Cart"]
+                    @if (Cart.TotalQuantity > 0)
+                    {
+                        <Badge Color="Color.Secondary" Margin="Margin.Is2.FromStart">
+                            @string.Format(L["ItemsInCart"], Cart.TotalQuantity)
+                        </Badge>
+                    }
+                </CardTitle>
+            </Column>
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <Button Color="Color.Secondary" Outline Clicked="GoToCatalog">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    @L["ContinueShopping"]
+                </Button>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        @if (Cart.Items.Count == 0)
+        {
+            <div class="text-center py-5">
+                <div style="font-size:5rem;color:#adb5bd;">
+                    <Icon Name="IconName.Cart" />
+                </div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromTop">
+                    @L["EmptyCart"]
+                </Heading>
+                <Paragraph TextColor="TextColor.Muted">
+                    @L["EmptyCartMessage"]
+                </Paragraph>
+                <Button Color="Color.Primary" Size="Size.Large" Clicked="GoToCatalog">
+                    <i class="fas fa-store me-2"></i>
+                    @L["BrowseProducts"]
+                </Button>
+            </div>
+        }
+        else
+        {
+            <Table Hoverable Responsive>
+                <TableHeader ThemeContrast="ThemeContrast.Light">
+                    <TableRow>
+                        <TableHeaderCell>@L["Name"]</TableHeaderCell>
+                        <TableHeaderCell TextAlignment="TextAlignment.End">@L["Price"]</TableHeaderCell>
+                        <TableHeaderCell TextAlignment="TextAlignment.Center" Style="width:220px;">
+                            @L["Quantity"]
+                        </TableHeaderCell>
+                        <TableHeaderCell TextAlignment="TextAlignment.End">@L["Subtotal"]</TableHeaderCell>
+                        <TableHeaderCell TextAlignment="TextAlignment.Center" Style="width:80px;"></TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    @foreach (var item in Cart.Items)
+                    {
+                        <TableRow>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Middle">
+                                <i class="fas fa-box me-2 text-muted"></i>
+                                <strong>@item.Name</strong>
+                            </TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Middle" TextAlignment="TextAlignment.End">
+                                @FormatPrice(item.Price)
+                            </TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Middle" TextAlignment="TextAlignment.Center">
+                                <div class="d-inline-flex align-items-center">
+                                    <Button Color="Color.Secondary"
+                                            Size="Size.Small"
+                                            Outline
+                                            Clicked="() => DecrementAsync(item)">
+                                        <i class="fas fa-minus"></i>
+                                    </Button>
+                                    <div style="width:70px;margin:0 6px;">
+                                        <NumericInput TValue="int"
+                                                      Value="@item.Quantity"
+                                                      ValueChanged="@((int v) => UpdateQuantityAsync(item, v))"
+                                                      Min="1"
+                                                      Size="Size.Small"
+                                                      TextAlignment="TextAlignment.Center" />
+                                    </div>
+                                    <Button Color="Color.Secondary"
+                                            Size="Size.Small"
+                                            Outline
+                                            Clicked="() => IncrementAsync(item)">
+                                        <Icon Name="IconName.Add" />
+                                    </Button>
+                                </div>
+                            </TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Middle" TextAlignment="TextAlignment.End">
+                                <strong>@FormatPrice(item.Subtotal)</strong>
+                            </TableRowCell>
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Middle" TextAlignment="TextAlignment.Center">
+                                <Button Color="Color.Danger"
+                                        Size="Size.Small"
+                                        Outline
+                                        Clicked="() => RemoveAsync(item)">
+                                    <Icon Name="IconName.Delete" />
+                                </Button>
+                            </TableRowCell>
+                        </TableRow>
+                    }
+                </TableBody>
+            </Table>
+        }
+    </CardBody>
+    @if (Cart.Items.Count > 0)
+    {
+        <CardFooter Background="Background.Light">
+            <Row Class="align-items-center">
+                <Column ColumnSize="ColumnSize.Is6">
+                    <Button Color="Color.Danger"
+                            Outline
+                            Clicked="ClearAsync">
+                        <Icon Name="IconName.Delete" Margin="Margin.Is2.FromEnd" />
+                        @L["ClearCart"]
+                    </Button>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is6" Class="text-end">
+                    <div>
+                        <span class="text-muted me-3">@L["Total"]:</span>
+                        <span style="font-size:1.5rem;font-weight:600;">
+                            @FormatPrice(Cart.TotalPrice)
+                        </span>
+                    </div>
+                    <Button Color="Color.Success"
+                            Size="Size.Large"
+                            Margin="Margin.Is2.FromTop"
+                            Disabled>
+                        <Icon Name="IconName.Check" Margin="Margin.Is2.FromEnd" />
+                        @L["Checkout"]
+                    </Button>
+                </Column>
+            </Row>
+        </CardFooter>
+    }
+</Card>
+
+@code {
+    private static string FormatPrice(float price)
+    {
+        return "$" + price.ToString("0.00");
+    }
+}
