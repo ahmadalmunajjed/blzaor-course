@@ -255,7 +255,7 @@ paket-files/
 **/.abpstudio/
 
 # BlzaorBookStore
-BlzaorBookStore/Logs/*
+BlzaorBookStore.Host/Logs/*
 
 *.db
 *.db-shm
