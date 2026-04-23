@@ -82,8 +82,8 @@ public class BlzaorBookStoreMenuContributor : IMenuContributor
     
         var bookStoreMenu = new ApplicationMenuItem(
             "BooksStore",
-            l["Menu:Books"],
-            icon: "fa fa-book"
+            l["Menu:Products"],
+            icon: "fa fa-box"
         );
 
         context.Menu.AddItem(bookStoreMenu);
@@ -100,7 +100,7 @@ public class BlzaorBookStoreMenuContributor : IMenuContributor
 
         bookStoreMenu.AddItem(new ApplicationMenuItem(
             "BooksStore.Products",
-            l["Menu:Products"],
+            l["Menu:List"],
             url: "/products"
         ));
     }

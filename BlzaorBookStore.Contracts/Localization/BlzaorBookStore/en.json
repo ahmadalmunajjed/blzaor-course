@@ -7,6 +7,7 @@
     "Menu:BlzaorBookStore": "Book Store",
     "Menu:Books": "Books",
     "Menu:Products": "Products",
+    "Menu:List": "List",
     "Products": "Products",
     "NewProduct": "New product",
     "ItemWillBeDeletedMessage": "'{0}' will be deleted. Do you confirm?",
