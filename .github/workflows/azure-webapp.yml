@@ -25,7 +25,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore BlzaorBookStore.sln
+        run: dotnet restore BlzaorBookStore.slnx
 
       - name: Set up dependency caching
         uses: actions/cache@v3
@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Build solution
-        run: dotnet build BlzaorBookStore.sln -c Release --no-restore
+        run: dotnet build BlzaorBookStore.slnx -c Release --no-restore
 
       - name: Publish Host project
         run: dotnet publish BlzaorBookStore.Host/BlzaorBookStore.Host.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
