@@ -1,7 +1,7 @@
 name: Build and deploy BlzaorBookStore Host to Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: shop-demo - Web Deploy
+  AZURE_WEBAPP_NAME: shop-demo
   AZURE_WEBAPP_PACKAGE_PATH: ./.net-app
   DOTNET_VERSION: '10.0.x'
 
