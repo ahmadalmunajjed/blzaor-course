@@ -23,6 +23,18 @@ jobs:
         with:
           dotnet-version: '10.x'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ABP CLI
+        run: dotnet tool install -g Volo.Abp.Studio.Cli
+
+      - name: Install client-side libraries (abp install-libs)
+        run: abp install-libs
+        working-directory: BlzaorBookStore.Host
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
